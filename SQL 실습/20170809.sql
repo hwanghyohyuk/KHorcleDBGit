@@ -1,0 +1,57 @@
+-- DAY3 수업내용
+
+--단일행함수
+--N개의 값을 읽어서 N개의 결과를 리턴하는 함수
+--문자열 함수, 날짜 관련 함수, 형변환 함수, 수학 관련 함수 등
+
+--그룹함수
+--N개의 값을 읽어서 1개의 결과를 리턴하는 함수
+--합계 함수, 평균 구하는 함수, 카운트 함수, 최대, 최소함수
+
+--!!!   SELECT 절에 단일행 함수와  그룸함수 함께 사용 못 함
+--결과 행의 갯수가 다르기 때문임
+
+--고정길이 문자열과 가변길이 문자열 비교
+CREATE TABLE TYPETEST(
+  CHARTYPE CHAR(20),
+  VARCHAR2TYPE VARCHAR2(20)
+);
+
+INSERT INTO TYPETEST VALUES('ORACLE','ORACLE');
+INSERT INTO TYPETEST VALUES('JAVA','JAVA');
+INSERT INTO TYPETEST VALUES('오라클','오라클');
+
+SELECT *
+FROM TYPETEST;
+
+-- CHAR과 VARCHAR2의 글자갯수 비교
+SELECT LENGTH(CHARTYPE), LENGTH(VARCHAR2TYPE)
+FROM TYPETEST;
+
+--LENGTHB
+
+SELECT EMAIL, INSTR(EMAIL,'k',1,3)
+FROM EMPLOYEE;
+
+SELECT RTRIM('tech   ') FROM DUAL; 
+SELECT RTRIM('tech   ', ' ') FROM DUAL;
+SELECT RTRIM('123000', '0') FROM DUAL;
+SELECT RTRIM('Tech123123', '123') FROM DUAL;
+SELECT RTRIM('123Tech123', '123') FROM DUAL;
+SELECT RTRIM('Techxyxzyyy', 'xyz') FROM DUAL;
+SELECT RTRIM('Tech6372', '0123456789') FROM DUAL;
+
+SELECT TRIM('   tech    ') FROM DUAL;
+SELECT TRIM('a' FROM 'aatechaaa') FROM DUAL;
+SELECT TRIM(LEADING '0' FROM '000123') FROM DUAL;
+SELECT TRIM(TRAILING '1' FROM 'Tech1') FROM DUAL;
+SELECT TRIM(BOTH '1' FROM '123Tech111') FROM DUAL;
+SELECT TRIM(LEADING FROM '   Tech  ') FROM DUAL;
+
+SELECT SUBSTR('This is a test', 6, 2) FROM DUAL; 
+SELECT SUBSTR('This is a test', 6) FROM DUAL;
+SELECT SUBSTR('이것은 연습입니다', 3, 4) FROM DUAL;  
+SELECT SUBSTR('TechOnTheNet', 1, 4) FROM DUAL; 
+SELECT SUBSTR('TechOnTheNet', -3, 3) FROM DUAL; 
+SELECT SUBSTR('TechOnTheNet', -6, 3) FROM DUAL; 
+SELECT SUBSTR('TechOnTheNet', -8, 2) FROM DUAL; 
