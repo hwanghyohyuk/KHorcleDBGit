@@ -64,3 +64,70 @@ WHERE DEPT_ID IS NOT NULL AND JOB_ID IS NOT NULL
 GROUP BY ROLLUP(DEPT_ID,JOB_ID);
 --GROUP BY ROLLUP(JOB_ID,DEPT_ID);
 
+--GROUPING
+--SELECT 절과 GROUP BY 절에서만 사용함
+--컬럼 그룸 묶을 때 사용함
+--그룹 묶어서 만든 집계값(1)인지 , 아닌지(0) 구분하는 용도로 사용함
+
+--ROLLUP 과 CUBE 함수 사용시 이용하는 함수임
+
+SELECT DEPT_ID, JOB_ID, SUM(SALARY), GROUPING(DEPT_ID) "부서별 그룹묶인 상태",GROUPING(JOB_ID) "직급별 묶인 상태"
+FROM EMPLOYEE
+WHERE DEPT_ID IS NOT NULL AND JOB_ID IS NOT NULL
+GROUP BY ROLLUP(DEPT_ID,JOB_ID);
+
+SELECT DEPT_ID, JOB_ID, SUM(SALARY), GROUPING(DEPT_ID) "부서별 그룹묶인 상태",GROUPING(JOB_ID) "직급별 묶인 상태"
+FROM EMPLOYEE
+WHERE DEPT_ID IS NOT NULL AND JOB_ID IS NOT NULL
+GROUP BY CUBE(DEPT_ID,JOB_ID);
+
+--GROUPING SETS
+--그룹별로 묶어서 계산한 여러 개의 SELECT 문들을 하나로 합친 결과를 원할때 사용함
+--집합연산자 (SET OPERATOR) 중에서 UNION ALL 사용과 결과가 동일함
+
+SELECT DEPT_ID, JOB_ID, MGR_ID, AVG(SALARY)
+FROM EMPLOYEE
+GROUP BY DEPT_ID, JOB_ID, MGR_ID
+UNION ALL
+SELECT DEPT_ID , NULL, MGR_ID, AVG(SALARY)
+FROM EMPLOYEE
+GROUP BY DEPT_ID, MGR_ID
+UNION ALL
+SELECT NULL, JOB_ID, MGR_ID, AVG (SALARY)
+FROM EMPLOYEE
+GROUP BY MGR_ID, JOB_ID;
+
+SELECT DEPT_ID, JOB_ID, MGR_ID, AVG(SALARY)
+FROM EMPLOYEE
+GROUP BY GROUPING SETS((DEPT_ID, JOB_ID, MGR_ID),
+                                      (DEPT_ID, MGR_ID),
+                                      (MGR_ID, JOB_ID));
+                                      
+--ROWID
+--ROWNUM
+
+--*************************************************************************
+--조인 (JOIN)
+--여러 개의 테이블을 하나의 큰 테이블로 합친 결과를 원할 때 사용함
+--조인 구문은 오라클에서만 사용하는 오라클 전용 구문화
+--모든 DBMS가 공통으로 사용하는 표준구문인 ASCI 표준구문 두 가지를 사용할 수 있음
+
+--오라클 전용 구문
+-- 합칠 테이블명들을 위한 컬럼명과 조건식을 WHERE 절에 명시함
+SELECT *
+FROM EMPLOYEE, DEPARTMENT
+WHERE EMPLOYEE.DEPT_ID = DEPARTMENT.DEPT_ID;
+
+SELECT *
+FROM EMPLOYEE E, DEPARTMENT D
+WHERE E.DEPT_ID = D.DEPT_ID;
+
+SELECT E.EMP_NAME, D.DEPT_NAME
+FROM EMPLOYEE E, DEPARTMENT D
+WHERE E.DEPT_ID = D.DEPT_ID;
+
+--ANSI 표준구문과 오라클 전용구문 차이 공부!
+--USING
+SELECT *
+FROM EMPLOYEE
+JOIN DEPARTMENT USING (DEPT_ID);
