@@ -1,0 +1,171 @@
+--DAY7 수업내용
+
+/*
+서브쿼리(SUBQUERY(
+쿼리문 안에서 사용되는 쿼리문
+서브 쿼리가 조회한 결과값을 메인쿼리가 사용하게 됨
+서브쿼리의 종류 : (WHERE)단일 행 서브쿼리, (WHERE)다중 행 서브쿼리, (SELECT)다중 열 서브쿼리 , (FROM)다중 열 다중 행 서브쿼리
+상[호연]관 서브쿼리, 스칼라 서브쿼리
+
+단일 행 서브 쿼리
+서브쿼리가 조회한 결과값의 갯수가 한 개인 경우
+서브쿼리 앞에 일반 비교연산자 사용할 수 있음
+
+부서별 급여의 합계 중 가장 큰 값을 조회
+*/
+SELECT *
+FROM(
+SELECT DEPT_NAME 부서명, SUM(SALARY) 합계
+FROM EMPLOYEE
+INNER JOIN DEPARTMENT USING (DEPT_ID)
+GROUP BY DEPT_NAME
+ORDER BY 2 DESC
+)WHERE ROWNUM = 1;
+
+SELECT DEPT_NAME 부서명, SUM(SALARY) 합계
+FROM EMPLOYEE
+LEFT JOIN DEPARTMENT USING (DEPT_ID)
+GROUP BY DEPT_NAME
+HAVING SUM(SALARY) = (SELECT MAX(SUM(SALARY))
+                                  FROM EMPLOYEE
+                                  GROUP BY DEPT_ID);
+                                  
+/*다중행서브쿼리*/
+SELECT EMP_ID,EMP_NAME,DEPT_ID, SALARY
+FROM EMPLOYEE
+WHERE SALARY IN (
+SELECT MIN(SALARY)
+FROM EMPLOYEE
+GROUP BY DEPT_ID
+);
+--부서별로 그 부서에서 최저 급여를 받고 있는 직원 조회
+
+
+SELECT EMP_ID,EMP_NAME, '직원' AS 구분
+FROM EMPLOYEE
+WHERE EMP_ID NOT IN ( SELECT MGR_ID
+                          FROM EMPLOYEE
+                          WHERE MGR_ID IS NOT NULL);
+                          
+SELECT EMP_ID,EMP_NAME, '관리자' AS 구분
+FROM EMPLOYEE
+WHERE EMP_ID IN ( SELECT MGR_ID
+                          FROM EMPLOYEE
+                          WHERE MGR_ID IS NOT NULL);
+                          
+SELECT EMP_ID, EMP_NAME,
+CASE WHEN EMP_ID IN (SELECT MGR_ID FROM EMPLOYEE) THEN '관리자'
+  ELSE '직원'
+END
+FROM EMPLOYEE;
+
+
+--직원들 중 가장 적은 급여를 받는 과장보다 
+--많은 급여를 받는 대리의 사원명, 급여 조회
+SELECT EMP_NAME,
+SALARY
+FROM EMPLOYEE
+JOIN JOB USING (JOB_ID)
+WHERE JOB_TITLE = '대리'
+AND SALARY > ANY
+(SELECT SALARY
+FROM EMPLOYEE
+JOIN JOB USING (JOB_ID)
+WHERE JOB_TITLE = '과장');
+
+
+--급여를 가장 많이 받는 과장보다 더 많이 받는 대리의 사원명, 급여 조회
+SELECT EMP_NAME,
+SALARY
+FROM EMPLOYEE
+JOIN JOB USING (JOB_ID)
+WHERE JOB_TITLE = '대리'
+AND SALARY > ALL
+(SELECT SALARY
+FROM EMPLOYEE
+JOIN JOB USING (JOB_ID)
+WHERE JOB_TITLE = '과장');
+
+--ANY 는 MAX값과 MIN값의 사잇값들
+--ALL 은 MAX값보다 큰값들과
+--          MIN값보다 작은값들을 말한다
+
+
+SELECT TRUNC(AVG(SALARY), -5)
+FROM EMPLOYEE
+GROUP BY JOB_ID; 
+--평균 급여
+
+--직급별 평균급여가 자기 자신의 급여와 맞는 직원의 이름, 직급, 급여 조회
+SELECT EMP_NAME,JOB_TITLE,SALARY
+FROM EMPLOYEE
+LEFT JOIN JOB USING (JOB_ID)
+WHERE SALARY IN
+(SELECT TRUNC(AVG(SALARY), -5)
+FROM EMPLOYEE
+GROUP BY JOB_ID)
+ORDER BY JOB_ID; 
+
+
+
+SELECT EMP_NAME,
+JOB_TITLE,
+SALARY
+FROM EMPLOYEE
+LEFT JOIN JOB USING (JOB_ID)
+WHERE (NVL(JOB_ID,' '), SALARY) IN
+(SELECT NVL(JOB_ID, ' '),
+TRUNC(AVG(SALARY), -5)
+FROM EMPLOYEE
+GROUP BY JOB_ID)
+ORDER BY JOB_ID;
+
+SELECT EMP_NAME,JOB_TITLE,SALARY
+FROM (
+SELECT JOB_ID,TRUNC(AVG(SALARY), -5) AS JOBAVG
+FROM EMPLOYEE
+GROUP BY JOB_ID) V
+JOIN EMPLOYEE E ON
+(JOBAVG = SALARY AND NVL(E.JOB_ID,' ') = NVL(V.JOB_ID,' '))
+LEFT JOIN JOB J ON (E.JOB_ID = J.JOB_ID)
+ORDER BY E.JOB_ID;
+
+--사번과 관리자 번호가 일치하는 사원(관리자)을 조회하고 그 값을 기반으로 사원테이블에서 관리자를 구분하는 쿼리문
+--사번과 관리자 번호가 일치하지않는 사원(직원)을 조회하고 그 값들을 기반으로 
+SELECT EMP_ID, EMP_NAME, '관리자' AS 구분
+FROM EMPLOYEE E
+WHERE EXISTS (SELECT NULL
+FROM EMPLOYEE
+WHERE E.EMP_ID = MGR_ID)
+UNION
+SELECT EMP_ID, EMP_NAME, '직원'
+FROM EMPLOYEE E2
+WHERE NOT EXISTS (SELECT NULL
+FROM EMPLOYEE
+WHERE E2.EMP_ID = MGR_ID)
+ORDER BY 3, 1;
+
+SELECT EMP_ID,EMP_NAME,DEPT_ID,HIRE_DATE
+FROM EMPLOYEE E
+ORDER BY (SELECT DEPT_NAME FROM DEPARTMENT 
+                WHERE DEPT_ID = E.DEPT_ID) DESC;
+                
+--TOP-N 분석
+/* 
+1. 인라인 뷰의 RANK함수를 이용한 TOP-N 분석예
+직원 정보에서 급여를 많이 받는 직원 5명 조회
+*/
+SELECT *
+FROM (
+SELECT EMP_NAME, SALARY, RANK() OVER (ORDER BY SALARY DESC) 순위
+FROM EMPLOYEE)
+WHERE 순위 <=5;
+
+SELECT EMP_NAME, SALARY,ROWNUM 순위
+FROM (
+SELECT EMP_NAME, SALARY
+FROM EMPLOYEE
+ORDER BY SALARY DESC)
+WHERE ROWNUM<=5;
+
+
