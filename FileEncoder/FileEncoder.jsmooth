@@ -12,7 +12,7 @@
 <iconLocation>FileEncoder_logo.png</iconLocation>
 <initialMemoryHeap>-1</initialMemoryHeap>
 <jarLocation>FileEncoder.jar</jarLocation>
-<mainClassName>encoder.view.EncoderView</mainClassName>
+<mainClassName>encoder.run.EncoderRun</mainClassName>
 <maximumMemoryHeap>-1</maximumMemoryHeap>
 <maximumVersion></maximumVersion>
 <minimumVersion>1.6</minimumVersion>
@@ -27,7 +27,7 @@
 </skeletonProperties>
 <skeletonProperties>
 <key>SingleProcess</key>
-<value>0</value>
+<value>1</value>
 </skeletonProperties>
 <skeletonProperties>
 <key>SingleInstance</key>
