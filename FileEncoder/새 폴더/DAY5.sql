@@ -1,0 +1,359 @@
+-- DAY5 수업내용
+
+-- HAVING 절 : GROUP BY 절 아래에 사용함
+-- 반드시 GROUP BY 와 함께 사용해야 함
+-- 그룹 묶어서 계산한 그룹함수 결과값에 대한 조건처리임.
+-- SELECT 절에서는 HAVING 처리된 값만 조회됨.
+
+-- 부서별 급여합계 중 9백만을 초과하는 부서와 급여합계 조회
+SELECT DEPT_ID, SUM(SALARY)
+FROM EMPLOYEE
+GROUP BY DEPT_ID
+HAVING SUM(SALARY) > 9000000;
+
+-- 분석함수
+-- RANK() 함수 : 등수(순위) 처리시 사용
+
+-- 해당 값에 대한 순위를 알고자 할 때
+-- RANK(순위를 알고자 하는 값) WITHIN GROUP (ORDER BY 컬럼명 정렬방식)
+
+-- 급여 230만원이 전체 급여 중 몇순위에 해당되는지 조회(급여 많은 순으로의 순위)
+SELECT RANK(2300000) WITHIN GROUP (ORDER BY SALARY DESC) 순위
+FROM EMPLOYEE;
+
+-- 전체 값에 순위를 매기고자 할 경우
+-- RANK() OVER (ORDER BY 컬럼명 정렬방식)
+SELECT EMP_NAME, SALARY, 
+        RANK() OVER (ORDER BY SALARY DESC) 순위
+FROM EMPLOYEE;
+
+-- ROLLUP 함수 : GROUP BY 절에서만 사용함
+-- 그룹별로 묶어서 계산된 결과에 대한 총집계를 구할 때 사용함
+SELECT DEPT_ID, SUM(SALARY)
+FROM EMPLOYEE
+WHERE DEPT_ID IS NOT NULL
+GROUP BY DEPT_ID;
+
+SELECT DEPT_ID, SUM(SALARY)
+FROM EMPLOYEE
+WHERE DEPT_ID IS NOT NULL
+GROUP BY ROLLUP(DEPT_ID);
+
+SELECT DEPT_ID, SUM(SALARY), MAX(SALARY), MIN(SALARY), AVG(SALARY)
+FROM EMPLOYEE
+WHERE DEPT_ID IS NOT NULL
+GROUP BY ROLLUP(DEPT_ID);
+
+-- CUBE 함수 : GROUP BY 절에서만 사용함
+-- 총집계 결과를 구함. 집계값이 위에 표시됨
+SELECT DEPT_ID, SUM(SALARY), MAX(SALARY), MIN(SALARY), AVG(SALARY)
+FROM EMPLOYEE
+WHERE DEPT_ID IS NOT NULL
+GROUP BY CUBE(DEPT_ID);
+
+-- 여러 개의 컬럼을 묶어서 그룹 처리할 경우
+-- 부서별 직급별 급여의 합계
+
+SELECT DEPT_ID, JOB_ID, SUM(SALARY)
+FROM EMPLOYEE
+WHERE DEPT_ID IS NOT NULL AND JOB_ID IS NOT NULL
+GROUP BY ROLLUP(DEPT_ID, JOB_ID);
+
+SELECT DEPT_ID, JOB_ID, SUM(SALARY)
+FROM EMPLOYEE
+WHERE DEPT_ID IS NOT NULL AND JOB_ID IS NOT NULL
+GROUP BY CUBE(DEPT_ID, JOB_ID);
+
+SELECT DEPT_ID, JOB_ID, SUM(SALARY)
+FROM EMPLOYEE
+WHERE DEPT_ID IS NOT NULL AND JOB_ID IS NOT NULL
+GROUP BY ROLLUP(DEPT_ID), ROLLUP(JOB_ID);
+
+SELECT DEPT_ID, JOB_ID, SUM(SALARY)
+FROM EMPLOYEE
+WHERE DEPT_ID IS NOT NULL AND JOB_ID IS NOT NULL
+GROUP BY CUBE(DEPT_ID), CUBE(JOB_ID);
+
+SELECT DEPT_ID, JOB_ID, SUM(SALARY)
+FROM EMPLOYEE
+WHERE DEPT_ID IS NOT NULL AND JOB_ID IS NOT NULL
+GROUP BY ROLLUP(JOB_ID), ROLLUP(DEPT_ID);
+
+-- GROUPING
+-- SELECT 절과 GROUP BY 절에서만 사용함
+-- 컬럼 그룹 묶을 때 사용함
+-- 그룹 묶어서 만든 집계값(1)인지, 아닌지(0) 구분하는 용도로 사용함
+-- ROLLUP 과 CUBE 함수 사용시 이용하는 함수임
+
+SELECT DEPT_ID, JOB_ID, SUM(SALARY),
+        GROUPING(DEPT_ID) "부서별 그룹묶인 상태",
+        GROUPING(JOB_ID) "직급별 그룹묶인 상태"
+FROM EMPLOYEE
+WHERE DEPT_ID IS NOT NULL AND JOB_ID IS NOT NULL
+GROUP BY ROLLUP(DEPT_ID, JOB_ID);
+
+SELECT DEPT_ID, JOB_ID, SUM(SALARY),
+        GROUPING(DEPT_ID) "부서별 그룹묶인 상태",
+        GROUPING(JOB_ID) "직급별 그룹묶인 상태"
+FROM EMPLOYEE
+WHERE DEPT_ID IS NOT NULL AND JOB_ID IS NOT NULL
+GROUP BY CUBE(DEPT_ID, JOB_ID);
+
+-- GROUPING SETS
+-- 그룹별로 묶어서 계산한 여러 개의 SELECT 문들을 하나로 합친 결과를 원할 때 사용함
+-- 집합연산자(SET OPERATOR) 중에서 UNION ALL 사용과 결과가 동일함
+
+SELECT DEPT_ID, JOB_ID, MGR_ID, AVG(SALARY)
+FROM EMPLOYEE
+GROUP BY DEPT_ID, JOB_ID, MGR_ID
+UNION ALL
+SELECT DEPT_ID, NULL, MGR_ID, AVG(SALARY)
+FROM EMPLOYEE
+GROUP BY DEPT_ID, MGR_ID
+UNION ALL
+SELECT NULL, JOB_ID, MGR_ID, AVG(SALARY)
+FROM EMPLOYEE
+GROUP BY JOB_ID, MGR_ID;
+
+-- 위의 처리과정을 GROUPING SETS 으로 바꾸면
+SELECT DEPT_ID, JOB_ID, MGR_ID, AVG(SALARY)
+FROM EMPLOYEE
+GROUP BY GROUPING SETS((DEPT_ID, JOB_ID, MGR_ID),
+                           (DEPT_ID, MGR_ID),
+                           (JOB_ID, MGR_ID));
+
+SELECT DEPT_ID, JOB_ID, MGR_ID, AVG(SALARY)
+FROM EMPLOYEE
+GROUP BY ROLLUP(DEPT_ID, (JOB_ID, MGR_ID));
+
+-- ROWID : 테이블에 행 추가시 자동으로 부여되는 행아이디값
+-- ROWNUM 과는 다름
+-- 데이터베이스가 자동으로 부여함. 수정 못 함. 조회만 할 수 있음
+SELECT ROWID, EMP_ID
+FROM EMPLOYEE;
+
+-- *****************************************
+-- 조인(JOIN) 
+-- 여러 개의 테이블을 하나의 큰 테이블로 합친 결과를 원할 때 사용함
+-- 조인 구문은 오라클에서만 사용하는 오라클 전용구문과 
+-- 모든 DBMS 가 공통으로 사용하는 표준구문인 ANSI 표준구문 두 가지를 사용할 수 있음
+
+-- 오라클 전용 구문 
+-- 합칠 테이블명들을 FROM 절에 , 로 구분해서 나열함
+-- 테이블을 합치기 위한 컬럼명과 조건식을 WHERE 절에 명시함
+SELECT *
+FROM EMPLOYEE, DEPARTMENT
+WHERE EMPLOYEE.DEPT_ID = DEPARTMENT.DEPT_ID;
+
+-- 테이블명에도 별칭 사용 가능함
+SELECT *
+FROM EMPLOYEE E, DEPARTMENT D
+WHERE E.DEPT_ID = D.DEPT_ID;
+
+-- 사원명, 부서명 조회
+SELECT EMP_NAME, E.DEPT_ID, DEPT_NAME
+FROM EMPLOYEE E, DEPARTMENT D
+WHERE E.DEPT_ID = D.DEPT_ID;
+
+-- ANSI 표준 구문 : 조인 처리를 위한 구문을 별도로 작성함
+-- 모든 DBMS 가 공통으로 사용하는 표준구문임
+SELECT *
+FROM EMPLOYEE
+JOIN DEPARTMENT USING (DEPT_ID);
+
+SELECT EMP_NAME, DEPT_ID, DEPT_NAME
+FROM EMPLOYEE
+JOIN DEPARTMENT USING (DEPT_ID);
+
+-- 기본 JOIN 은 EQUIL JOIN 임
+-- 조인에 사용되는 컬럼값이 일치하는 행들만 합쳐짐
+SELECT EMP_NAME, DEPT_ID, LOC_ID, DEPT_NAME
+FROM EMPLOYEE2
+JOIN DEPARTMENT USING (DEPT_ID, LOC_ID);
+
+
+-- 조인에 사용할 컬럼명이 다른 경우에는 ON 사용함
+-- 컬럼명만 다르고, 기록된 값은 같아야 함
+SELECT *
+FROM DEPARTMENT
+JOIN LOCATION ON (LOC_ID = LOCATION_ID);
+
+-- 오라클 전용 구문
+SELECT *
+FROM DEPARTMENT, LOCATION
+WHERE LOC_ID = LOCATION_ID;
+
+-- 사번, 사원명, 직급명 조회
+-- 오라클 전용 구문
+SELECT EMP_ID, EMP_NAME, JOB_TITLE
+FROM EMPLOYEE E, JOB J
+WHERE E.JOB_ID = J.JOB_ID;
+
+-- ANSI 표준 구문
+SELECT EMP_ID, EMP_NAME, JOB_TITLE
+FROM EMPLOYEE
+JOIN JOB USING (JOB_ID);
+
+
+-- JOIN 연습문제
+
+-- 1. 2020년 12월 25일이 무슨 요일인지 조회하시오.
+SELECT TO_CHAR(TO_DATE('2020/12/25'), 'YYYYMMDD DAY') 
+FROM DUAL;
+
+
+-- 2. 주민번호가 60년대 생이면서 성별이 여자이고, 
+-- 성이 김씨인 직원들의 
+-- 사원명, 주민번호, 부서명, 직급명을 조회하시오.
+SELECT EMP_NAME, EMP_NO, DEPT_NAME, JOB_TITLE
+FROM EMPLOYEE
+JOIN JOB USING (JOB_ID)
+JOIN DEPARTMENT USING (DEPT_ID)
+WHERE EMP_NO LIKE '6%'
+AND SUBSTR(EMP_NO, 8, 1) = '2'
+AND EMP_NAME LIKE '김%';
+
+
+-- 3. 가장 나이가 적은 직원의 
+-- 사번, 사원명, 나이, 부서명, 직급명을 조회하시오.
+
+--나이의 최소값 조회
+SELECT MIN(TRUNC((MONTHS_BETWEEN(SYSDATE,
+          TO_DATE(SUBSTR(EMP_NO, 1, 2), 'RR')) / 12))) 나이 
+FROM EMPLOYEE;       
+
+-- 조회한 나이의 최소값을 이용해 직원의 정보 조회함
+-- outer join 필요함.
+SELECT EMP_ID, EMP_NAME, 
+       MIN(TRUNC((MONTHS_BETWEEN(SYSDATE, TO_DATE(SUBSTR(EMP_NO, 1, 2), 
+       'RR')) / 12))) 나이 ,
+       DEPT_NAME, JOB_TITLE
+FROM EMPLOYEE
+LEFT JOIN JOB USING (JOB_ID)
+LEFT JOIN DEPARTMENT USING (DEPT_ID)
+GROUP BY EMP_ID, EMP_NAME, DEPT_NAME, JOB_TITLE
+HAVING MIN(TRUNC((MONTHS_BETWEEN(SYSDATE, TO_DATE(SUBSTR(EMP_NO, 1, 2), 
+       'RR')) / 12))) = 28;
+
+-- 서브쿼리를 사용할 경우 *****************************
+SELECT EMP_ID, EMP_NAME, 
+       MIN(TRUNC((MONTHS_BETWEEN(SYSDATE, TO_DATE(SUBSTR(EMP_NO, 1, 2), 
+       'RR')) / 12))) 나이 ,
+       DEPT_NAME, JOB_TITLE
+FROM EMPLOYEE
+LEFT JOIN JOB USING (JOB_ID)
+LEFT JOIN DEPARTMENT USING (DEPT_ID)
+GROUP BY EMP_ID, EMP_NAME, DEPT_NAME, JOB_TITLE
+HAVING MIN(TRUNC((MONTHS_BETWEEN(SYSDATE, TO_DATE(SUBSTR(EMP_NO, 1, 2), 
+       'RR')) / 12))) = (SELECT MIN(TRUNC((MONTHS_BETWEEN
+                      (SYSDATE, 
+                      TO_DATE(SUBSTR(EMP_NO, 1, 2), 
+                                 'RR')) / 12))) 나이 
+                      FROM EMPLOYEE);
+
+-- 4. 이름에 '성'자가 들어가는 직원들의 
+-- 사번, 사원명, 부서명을 조회하시오.
+SELECT EMP_ID, EMP_NAME, DEPT_NAME
+FROM EMPLOYEE
+JOIN DEPARTMENT USING (DEPT_ID)
+WHERE EMP_NAME LIKE '%성%';
+
+
+-- 5. 해외영업팀에 근무하는 
+-- 사원명, 직급명, 부서코드, 부서명을 조회하시오.
+SELECT EMP_NAME, JOB_TITLE, DEPT_ID, DEPT_NAME
+FROM EMPLOYEE
+JOIN JOB USING (JOB_ID)
+JOIN DEPARTMENT USING (DEPT_ID)
+WHERE DEPT_NAME LIKE '해외영업%'
+ORDER BY 4;
+
+
+-- 6. 보너스포인트를 받는 직원들의 
+-- 사원명, 보너스포인트, 부서명, 근무지역명을 조회하시오.
+SELECT EMP_NAME, BONUS_PCT, DEPT_NAME, LOC_DESCRIBE
+FROM EMPLOYEE
+JOIN DEPARTMENT USING (DEPT_ID)
+JOIN LOCATION ON (LOCATION_ID = LOC_ID)
+WHERE BONUS_PCT IS NOT NULL
+AND BONUS_PCT <> 0.0;
+
+
+-- 7. 부서코드가 20인 직원들의 
+-- 사원명, 직급명, 부서명, 근무지역명을 조회하시오.
+SELECT EMP_NAME, JOB_TITLE, DEPT_NAME, LOC_DESCRIBE
+FROM EMPLOYEE
+JOIN JOB USING (JOB_ID)
+JOIN DEPARTMENT USING (DEPT_ID)
+JOIN LOCATION ON (LOCATION_ID = LOC_ID)
+WHERE DEPT_ID = '20';
+
+
+-- 8. 직급별 연봉의 최소급여(MIN_SAL)보다 많이 받는 직원들의
+-- 사원명, 직급명, 급여, 연봉을 조회하시오.
+-- 연봉은 보너스포인트를 적용하시오.
+SELECT EMP_NAME, JOB_TITLE, SALARY, 
+       (SALARY + NVL(BONUS_PCT, 0) * SALARY) * 12 연봉
+FROM EMPLOYEE
+JOIN JOB USING (JOB_ID)       
+WHERE (SALARY + NVL(BONUS_PCT, 0) * SALARY) * 12 
+      > MIN_SAL;
+
+
+-- 9 . 한국(KO)과 일본(JP)에 근무하는 직원들의 
+-- 사원명(emp_name), 부서명(dept_name), 지역명(loc_describe),
+--  국가명(country_name)을 조회하시오.
+SELECT EMP_NAME 사원명, DEPT_NAME 부서명,
+       LOC_DESCRIBE 지역명, COUNTRY_NAME 국가명
+FROM EMPLOYEE
+JOIN DEPARTMENT USING (DEPT_ID)
+JOIN LOCATION ON (LOCATION_ID = LOC_ID)
+JOIN COUNTRY USING (COUNTRY_ID)       
+WHERE COUNTRY_ID IN ('KO', 'JP');
+
+-- 10. 같은 부서에 근무하는 직원들의 
+-- 사원명, 부서코드, 동료이름, 부서코드를 조회하시오.
+-- self join 사용
+SELECT E.EMP_NAME 사원명, E.DEPT_ID 부서코드, 
+       C.EMP_NAME 동료이름, C.DEPT_ID 부서코드
+FROM EMPLOYEE E, EMPLOYEE C
+WHERE E.EMP_NAME <> C.EMP_NAME
+AND E.DEPT_ID = C.DEPT_ID
+ORDER BY E.EMP_NAME;
+
+
+
+-- 11. 보너스포인트가 없는 직원들 중에서 
+-- 직급코드가 J4와 J7인 직원들의 사원명, 직급명, 급여를 조회하시오.
+
+-- 단, join과 IN 사용
+SELECT EMP_NAME, JOB_TITLE, SALARY
+FROM EMPLOYEE
+JOIN JOB USING (JOB_ID)
+WHERE JOB_ID IN ('J4', 'J7') AND BONUS_PCT IS NULL;
+
+-- 단, join과 set operator 사용
+SELECT EMP_NAME, JOB_TITLE, SALARY
+FROM EMPLOYEE
+JOIN JOB USING (JOB_ID)
+WHERE JOB_ID = 'J4' AND BONUS_PCT IS NULL
+UNION
+SELECT EMP_NAME, JOB_TITLE, SALARY
+FROM EMPLOYEE
+JOIN JOB USING (JOB_ID)
+WHERE JOB_ID = 'J7' AND BONUS_PCT IS NULL;
+
+
+
+-- 12. 소속부서가 50 또는 90인 직원중 
+-- 기혼인 직원과 미혼인 직원의 수를 조회하시오.
+SELECT DECODE(MARRIAGE, 'Y', '기혼', 'N', '미혼') 결혼유무, 
+       COUNT(*) 직원수
+FROM EMPLOYEE
+WHERE DEPT_ID IN ('50', '90')
+GROUP BY DECODE(MARRIAGE, 'Y', '기혼', 'N', '미혼')
+ORDER BY 1;
+
+
+
+
