@@ -41,12 +41,22 @@ public class MapTest {
 			Inventory value = entry.getValue();
 			System.out.println(value.toString());		
 			iv[i] = value;
+			i++;
+		}
+		System.out.println();
+		for(int j=0; j<iv.length;j++){
+			iv[j].setGetDate(new Date());
+			try {
+				iv[j].setGetAmount(20);
+			} catch (AmountNotEnough e) {
+				// TODO Auto-generated catch block
+				System.out.println(e.getMessage());
+			}
 		}
 		
-		//맵에 기록된 정보를 Inventory[] 로 변홖한 다음
-		 // 출고 날짜를 오늘 날짜로, 출고 수량은 모두 10개로 지정한다.예외처리함
-		// 변경된 Inventory[] 의 정보를 모두 출력한다.
-
+		for(int k =0; k<iv.length;k++){
+			System.out.println(iv[k].toString());
+		}
 	}
 
 }

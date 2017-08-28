@@ -20,6 +20,7 @@ public class Inventory {
 		this.productName = productName;
 		this.putDate = putDate;
 		this.putAmount = putAmount;
+		inventoryAmount = putAmount;
 	}
 
 	public String getProductName() {
@@ -63,6 +64,7 @@ public class Inventory {
 			throw new AmountNotEnough("현재 재고가 부족합니다. 재고 수량을 확인하시기 바랍니다.");
 		} else {
 			this.inventoryAmount = this.putAmount - getAmount;
+			this.getAmount = getAmount;
 		}
 	}
 
