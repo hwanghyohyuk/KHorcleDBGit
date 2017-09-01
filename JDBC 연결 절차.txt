@@ -1,0 +1,11 @@
+Connection conn = null;
+Statement state =null;
+ResultSet result=null;
+
+conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "student", "student");
+state = conn.createStatement();
+result = state.executeQuery(query);
+
+result.close();
+state.close();
+conn.close();		
