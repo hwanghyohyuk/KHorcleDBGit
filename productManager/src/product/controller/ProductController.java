@@ -110,4 +110,13 @@ public class ProductController {
 			return null;
 		}
 	}
+
+	public ArrayList<Product> priceTop3() {
+		ArrayList<Product> list = pService.priceTop3();
+		if (list.size() > 0) {
+			return list;
+		} else {
+			return null;
+		}
+	}
 }

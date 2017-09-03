@@ -26,3 +26,4 @@ SELECT * FROM TB_PRODUCT;
 commit;
 
 select max(to_number(p_id))+1 from tb_product;
+

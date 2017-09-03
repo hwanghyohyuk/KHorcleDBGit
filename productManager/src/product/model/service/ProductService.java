@@ -58,6 +58,14 @@ public class ProductService {
 		close(conn);
 		return list;
 	}
+	
+	public ArrayList<Product> priceTop3() {
+		Connection conn = getConnection();
+		ArrayList<Product> list = pDao.priceTop3(conn);
+		close(conn);
+		return list;
+	}
+
 
 	public String getLastId() {
 		Connection conn = getConnection();
@@ -87,6 +95,7 @@ public class ProductService {
 		return result;
 	}
 
+	
 	
 	
 }

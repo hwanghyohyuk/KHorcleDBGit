@@ -165,7 +165,7 @@ public class ProductView extends JFrame {
 		panel_Inner.add(btn_search);
 
 		JPanel panel_Inner2 = new JPanel();
-		panel_Inner2.setBounds(12, 148, 361, 403);
+		panel_Inner2.setBounds(12, 224, 361, 327);
 		panel_Inner.add(panel_Inner2);
 		panel_Inner2.setLayout(null);
 
@@ -180,40 +180,40 @@ public class ProductView extends JFrame {
 
 		JLabel lbl_pId = new JLabel("상품 ID : ");
 		lbl_pId.setHorizontalAlignment(SwingConstants.CENTER);
-		lbl_pId.setBounds(12, 79, 85, 15);
+		lbl_pId.setBounds(12, 66, 85, 15);
 		panel_Inner2.add(lbl_pId);
 
 		JLabel lbl_pName = new JLabel("상 품 명 : ");
 		lbl_pName.setHorizontalAlignment(SwingConstants.CENTER);
-		lbl_pName.setBounds(12, 129, 85, 15);
+		lbl_pName.setBounds(12, 91, 85, 15);
 		panel_Inner2.add(lbl_pName);
 
 		JLabel lbl_price = new JLabel("가   격 : ");
 		lbl_price.setHorizontalAlignment(SwingConstants.CENTER);
-		lbl_price.setBounds(12, 179, 85, 15);
+		lbl_price.setBounds(12, 116, 85, 15);
 		panel_Inner2.add(lbl_price);
 
 		JLabel lbl_description = new JLabel("상품설명 : ");
 		lbl_description.setHorizontalAlignment(SwingConstants.CENTER);
-		lbl_description.setBounds(12, 229, 85, 15);
+		lbl_description.setBounds(12, 145, 85, 124);
 		panel_Inner2.add(lbl_description);
 
 		lbl_pIdInfo = new JLabel("");
-		lbl_pIdInfo.setBounds(109, 79, 240, 15);
+		lbl_pIdInfo.setBounds(109, 66, 240, 15);
 		panel_Inner2.add(lbl_pIdInfo);
 
 		tf_pName = new JTextField();
-		tf_pName.setBounds(109, 126, 240, 21);
+		tf_pName.setBounds(109, 88, 240, 21);
 		panel_Inner2.add(tf_pName);
 		tf_pName.setColumns(10);
 
 		sp_price = new JSpinner();
 		sp_price.setModel(new SpinnerNumberModel(1000, 0, 100000000, 100));
-		sp_price.setBounds(109, 176, 240, 22);
+		sp_price.setBounds(109, 113, 240, 22);
 		panel_Inner2.add(sp_price);
 
 		JPanel panel_Inner4 = new JPanel();
-		panel_Inner4.setBounds(0, 373, 361, 30);
+		panel_Inner4.setBounds(0, 279, 361, 30);
 		panel_Inner2.add(panel_Inner4);
 		panel_Inner4.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
@@ -237,7 +237,7 @@ public class ProductView extends JFrame {
 		panel_Inner4.add(btn_delete);
 
 		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(109, 229, 240, 124);
+		scrollPane_1.setBounds(109, 145, 240, 124);
 		panel_Inner2.add(scrollPane_1);
 
 		ta_description = new JTextArea();
@@ -282,6 +282,16 @@ public class ProductView extends JFrame {
 		});
 		btn_ascendingPrice.setBounds(199, 115, 174, 23);
 		panel_Inner.add(btn_ascendingPrice);
+		
+		JButton btn_top3 = new JButton("Top 3 Price");
+		btn_top3.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				printList(pController.priceTop3());
+			}
+		});
+		btn_top3.setBounds(12, 146, 361, 32);
+		panel_Inner.add(btn_top3);
 
 		btn_add.addMouseListener(new MouseAdapter() {
 			@Override

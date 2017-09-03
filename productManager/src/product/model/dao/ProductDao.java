@@ -189,7 +189,28 @@ public class ProductDao {
 		return list;
 	}
 
-
+	public ArrayList<Product> priceTop3(Connection conn) {
+		Product product = null;
+		ArrayList<Product> list = new ArrayList<Product>();
+		PreparedStatement pstmt = null;
+		ResultSet result = null;
+		String query = prop.getProperty("priceTop3");
+		try {
+			pstmt = conn.prepareStatement(query);
+			result = pstmt.executeQuery();
+			while (result.next()) {// 조회해온 결과의 BOF 다음 값이 있다면
+				product = new Product(result.getString("P_ID"),result.getString("P_NAME"),result.getInt("P_PRICE"),result.getString("P_DESCRIPTION"));
+				list.add(product);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(result);
+			close(pstmt);
+		}
+		return list;
+	}
+	
 	public String getLastId(Connection conn) {
 		PreparedStatement pstmt = null;
 		ResultSet result = null;
@@ -285,6 +306,8 @@ public class ProductDao {
 		return result;
 	}
 
+
+	
 
 
 
