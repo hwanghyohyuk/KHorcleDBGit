@@ -1,0 +1,7 @@
+#dbconfig.properties
+#db connect setting file
+#20170901 write
+driver=oracle.jdbc.driver.OracleDriver
+url=jdbc.oracle.thin:@localhost:1521:xe
+user=student
+password=student

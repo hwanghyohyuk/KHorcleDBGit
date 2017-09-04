@@ -1,0 +1,96 @@
+package employee.controller;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import employee.model.vo.Employee;
+import employee.view.EmployeeView;
+
+public class EmployeeController {
+
+	private EmployeeDao empDao;
+
+	public EmployeeController() {
+		empDao = new EmployeeDao();
+	}
+
+	public void selectEmployee(String empId) {
+		// 뷰로부터 받은 데이터를 검사하거나 가공 처리후 모델로 전달하고 처리결과를 받아서
+		// 성공 실패에 따라 뷰를 선택해서 구동시킴
+		try {
+			Employee emp = empDao.selectOne(empId);
+			if (emp != null) {
+				new EmployeeView().printEmployee(emp);
+			}
+
+		} catch (EmployeeException e) {
+			System.out.println(e.getMessage());
+			return;
+		}
+
+	}
+
+	// 리스트로
+	public void selectAll() {
+		try {
+			ArrayList<Employee> list = empDao.selectList();
+			if (list.size() > 0) {
+				new EmployeeView().printAll(list);
+			} else {
+				return;
+			}
+		} catch (EmployeeException e) {
+			System.out.println(e.getMessage());
+			return;
+		}
+	}
+
+	/*
+	 * public void selectAll() { try { HashMap<String, Employee> map =
+	 * empDao.selectList(); if (map.size()>0) { new
+	 * EmployeeView().printAll(map); }else { return; } } catch
+	 * (EmployeeException e) { System.out.println(e.getMessage()); return; } }
+	 */
+
+	public void selectName(String empName) { // 이름으로 조회
+		try {
+			ArrayList<Employee> list = empDao.selectSearchName(empName);
+			new EmployeeView().printAll(list);
+		} catch (EmployeeException e) {
+			System.out.println(e.getMessage());
+			return;
+		}
+	}
+
+	public void selectHireDate(String hireDate) { // 입사일로 조회
+		try {
+			ArrayList<Employee> list = empDao.selectSearchHireDate(hireDate);
+			new EmployeeView().printAll(list);
+		} catch (EmployeeException e) {
+			System.out.println(e.getMessage());
+			return;
+		}
+	}
+
+	public void selectSalary(int minSal, int maxSal) {// 급여로 조회
+		try {
+			ArrayList<Employee> list = empDao.selectSearchSalary(minSal, maxSal);
+			new EmployeeView().printAll(list);
+		} catch (EmployeeException e) {
+			System.out.println(e.getMessage());
+			return;
+		}
+	}
+
+	public void insertEmployee(Employee inputEmpInfo) {
+		try {
+			int result = empDao.insertEmployee(inputEmpInfo);
+			new EmployeeView().insertResult(result);
+		} catch (EmployeeException e) {
+			System.out.println(e.getMessage());
+			return;
+		}
+		
+	}
+
+}

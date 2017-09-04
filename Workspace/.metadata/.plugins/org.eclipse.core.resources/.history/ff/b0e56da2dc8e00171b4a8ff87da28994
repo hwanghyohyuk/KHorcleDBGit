@@ -1,0 +1,4 @@
+#쿼리문 저장 파일
+#query.properties
+selectList=select * from product
+selectOne=select * from product where product_id = ?

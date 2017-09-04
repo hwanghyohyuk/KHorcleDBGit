@@ -1,0 +1,12 @@
+#query.properties
+#sql query file
+#20170901 write
+selectOne=SELECT * FROM EMPLOYEE WHERE EMP_ID = ?
+selectList=SELECT * FROM EMPLOYEE
+selectMap=SELECT * FROM EMPLOYEE
+selectSearchName=SELECT * FROM EMPLOYEE WHERE EMP_NAME LIKE '%?%'
+selectSearchHireDate=SELECT * FROM EMPLOYEE WHERE HIRE_DATE = ?
+selectSearchSalary=SELECT * FROM EMPLOYEE WHERE SALARY >= ? AND SALARY<= ?
+insertEmployee=
+deleteEmployee=DELETE FROM EMPLOYEE WHERE EMP_ID=?
+updateEmployee=UPDATE EMPLOYEE SET EMAIL =?,"+"PHONE = ?, MARRIAGE = ? WHERE EMP_ID = ?

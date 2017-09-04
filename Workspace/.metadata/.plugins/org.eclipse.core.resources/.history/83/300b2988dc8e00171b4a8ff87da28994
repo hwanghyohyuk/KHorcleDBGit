@@ -1,0 +1,53 @@
+package product.model.dao;
+
+import static common.JDBCTemplate.*;
+
+import java.io.FileReader;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Properties;
+
+import product.model.vo.Product;
+
+public class ProductDao {
+
+	private Properties prop = new Properties();
+	
+	public ProductDao(){
+		try {
+			prop.load(new FileReader("properties/query.properties"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	
+	public ArrayList<Product> selectList(Connection conn) {
+		Product product = null;
+		ArrayList<Product> list = new ArrayList<Product>();
+		PreparedStatement pstmt = null;
+		ResultSet result = null;
+		String query = prop.getProperty("selectList");
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			result = pstmt.executeQuery();
+			while (result.next()) {// 조회해온 결과의 BOF 다음 값이 있다면
+				product = new Product(result.getString("P_ID"));
+				list.add(product);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(result);
+			close(pstmt);
+		}
+		return list;
+	}
+
+}

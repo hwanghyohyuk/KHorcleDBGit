@@ -1,0 +1,49 @@
+package product.controller;
+
+import java.util.ArrayList;
+
+import product.model.service.ProductService;
+import product.model.vo.Product;
+import product.view.ProductView;
+
+public class ProductController {
+
+	private ProductService pService = new ProductService();
+	
+	public void selectId(String pId){
+		Product product = pService.selectId(pId);
+		if (product != null) {
+			//new EmployeeView().printEmployee(emp);
+		}
+		
+	}
+	
+	public void selectName(String pName){}
+	
+	public void selectAll(){
+		
+		ArrayList<Product> list = pService.selectAllList();
+		if(list.size()>0){
+			new ProductView().printAllList(list);
+		}else{
+			return;
+		}
+	}
+	
+	public void insertProduct(){}
+	
+	public void updateProduct(){}
+	
+	public void deleteProduct(){}
+	
+	public void descendingName(){}
+	
+	public void ascendingName(){}
+	
+	public void descendingPrice(){}
+	
+	public void ascendingPrice(){}
+	
+	
+	
+}

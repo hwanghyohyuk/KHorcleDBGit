@@ -1,0 +1,25 @@
+package common;
+
+import java.sql.*;
+import java.util.*;
+
+public class JDBCTemplate {
+
+	private Properties prop = new Properties();
+
+	public static Connection getConnection() {
+		Connection conn = DriverManager.getConnection(url);
+
+		return conn;
+	}
+	
+	public static void close(Connection conn){
+		try {
+			conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+}

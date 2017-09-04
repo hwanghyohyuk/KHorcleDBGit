@@ -1,0 +1,40 @@
+content_assist_disabled_computers=org.eclipse.jdt.ui.textProposalCategory\u0000org.eclipse.recommenders.calls.rcp.proposalCategory.templates\u0000org.eclipse.mylyn.java.ui.javaAllProposalCategory\u0000org.eclipse.jdt.ui.javaAllProposalCategory\u0000org.eclipse.jdt.ui.javaTypeProposalCategory\u0000org.eclipse.jdt.ui.javaNoTypeProposalCategory\u0000org.eclipse.recommenders.chain.rcp.proposalCategory.chain\u0000
+content_assist_lru_history=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?><history maxLHS\="100" maxRHS\="10"><lhs name\="com.test3.Student"><rhs name\="com.test3.Student"/></lhs><lhs name\="compony.Compony"><rhs name\="compony.Compony"/></lhs><lhs name\="school.Student"><rhs name\="school.Student"/></lhs><lhs name\="java.util.List"><rhs name\="java.util.ArrayList"/></lhs><lhs name\="java.util.Collection"><rhs name\="java.util.ArrayList"/></lhs><lhs name\="java.lang.Iterable"><rhs name\="java.util.ArrayList"/></lhs><lhs name\="java.util.RandomAccess"><rhs name\="java.util.ArrayList"/></lhs><lhs name\="java.lang.Cloneable"><rhs name\="java.text.SimpleDateFormat"/><rhs name\="java.util.Date"/><rhs name\="java.util.ArrayList"/><rhs name\="java.sql.Date"/><rhs name\="java.util.Properties"/></lhs><lhs name\="java.util.AbstractList"><rhs name\="java.util.ArrayList"/></lhs><lhs name\="java.util.AbstractCollection"><rhs name\="java.util.ArrayList"/></lhs><lhs name\="java.util.ArrayList"><rhs name\="java.util.ArrayList"/></lhs><lhs name\="java.util.Comparator"><rhs name\="ncs4.test1.Decending"/></lhs><lhs name\="ncs4.test2.Fruit"><rhs name\="ncs4.test2.Fruit"/></lhs><lhs name\="java.util.Hashtable"><rhs name\="java.util.Properties"/></lhs><lhs name\="java.util.Map"><rhs name\="java.util.Properties"/></lhs><lhs name\="java.util.Dictionary"><rhs name\="java.util.Properties"/></lhs><lhs name\="java.util.Properties"><rhs name\="java.util.Properties"/></lhs><lhs name\="java.text.DateFormat"><rhs name\="java.text.SimpleDateFormat"/></lhs><lhs name\="java.text.Format"><rhs name\="java.text.SimpleDateFormat"/></lhs><lhs name\="java.text.SimpleDateFormat"><rhs name\="java.text.SimpleDateFormat"/></lhs><lhs name\="ncs4.test3.Inventory"><rhs name\="ncs4.test3.Inventory"/></lhs><lhs name\="java.util.Date"><rhs name\="java.util.Date"/><rhs name\="java.sql.Date"/></lhs><lhs name\="java.util.Iterator"><rhs name\="java.util.Scanner"/></lhs><lhs name\="java.io.Closeable"><rhs name\="java.util.Scanner"/><rhs name\="java.io.FileReader"/></lhs><lhs name\="java.lang.AutoCloseable"><rhs name\="java.util.Scanner"/><rhs name\="java.io.FileReader"/></lhs><lhs name\="employee.controller.EmployeeController"><rhs name\="employee.controller.EmployeeController"/></lhs><lhs name\="employee.view.EmployeeView"><rhs name\="employee.view.EmployeeView"/></lhs><lhs name\="employee.model.EmployeeDao"><rhs name\="employee.model.EmployeeDao"/></lhs><lhs name\="employee.model.vo.Employee"><rhs name\="employee.model.vo.Employee"/></lhs><lhs name\="employee.model.dao.EmployeeDao"><rhs name\="employee.model.dao.EmployeeDao"/></lhs><lhs name\="employee.model.service.EmployeeService"><rhs name\="employee.model.service.EmployeeService"/></lhs><lhs name\="common.JDBCtemplate"><rhs name\="common.JDBCtemplate"/></lhs><lhs name\="java.lang.Readable"><rhs name\="java.io.FileReader"/></lhs><lhs name\="java.io.Reader"><rhs name\="java.io.FileReader"/></lhs><lhs name\="java.sql.Date"><rhs name\="java.sql.Date"/></lhs><lhs name\="product.controller.ProductController"><rhs name\="product.controller.ProductController"/></lhs><lhs name\="javax.swing.JFrame"><rhs name\="product.view.ProductView"/></lhs><lhs name\="javax.swing.WindowConstants"><rhs name\="product.view.ProductView"/></lhs><lhs name\="javax.accessibility.Accessible"><rhs name\="product.view.ProductView"/></lhs><lhs name\="javax.swing.RootPaneContainer"><rhs name\="product.view.ProductView"/></lhs><lhs name\="javax.swing.TransferHandler$HasGetTransferHandler"><rhs name\="product.view.ProductView"/></lhs><lhs name\="java.awt.Frame"><rhs name\="product.view.ProductView"/></lhs><lhs name\="java.awt.MenuContainer"><rhs name\="product.view.ProductView"/></lhs><lhs name\="java.awt.Window"><rhs name\="product.view.ProductView"/></lhs><lhs name\="java.awt.Container"><rhs name\="product.view.ProductView"/></lhs><lhs name\="java.awt.Component"><rhs name\="product.view.ProductView"/></lhs><lhs name\="java.awt.image.ImageObserver"><rhs name\="product.view.ProductView"/></lhs><lhs name\="product.view.ProductView"><rhs name\="product.view.ProductView"/></lhs><lhs name\="product.model.service.ProductService"><rhs name\="product.model.service.ProductService"/></lhs><lhs name\="product.model.dao.ProductDao"><rhs name\="product.model.dao.ProductDao"/></lhs><lhs name\="java.awt.event.MouseListener"><rhs name\="product.view.ProductView"/></lhs><lhs name\="java.util.EventListener"><rhs name\="product.view.ProductView"/></lhs></history>
+content_assist_number_of_computers=24
+content_assist_proposals_background=255,255,255
+content_assist_proposals_foreground=0,0,0
+eclipse.preferences.version=1
+fontPropagated=true
+java_multi_line_comment=255,255,128
+java_multi_line_comment_bold=true
+java_single_line_comment=255,255,128
+java_single_line_comment_bold=true
+org.eclipse.jdt.internal.ui.navigator.layout=2
+org.eclipse.jdt.internal.ui.navigator.librariesnode=true
+org.eclipse.jdt.ui.editor.tab.width=
+org.eclipse.jdt.ui.exception.name=e
+org.eclipse.jdt.ui.formatterprofiles.version=12
+org.eclipse.jdt.ui.gettersetter.use.is=true
+org.eclipse.jdt.ui.javadoclocations.migrated=true
+org.eclipse.jdt.ui.overrideannotation=true
+org.eclipse.jdt.ui.text.code_templates_migrated=true
+org.eclipse.jdt.ui.text.custom_code_templates=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?><templates/>
+org.eclipse.jdt.ui.text.custom_templates=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?><templates/>
+org.eclipse.jdt.ui.text.templates_migrated=true
+org.eclipse.jface.textfont=1|\uB9D1\uC740 \uACE0\uB515|14.25|0|WINDOWS|1|-19|0|0|0|400|0|0|0|0|3|2|1|50|\uB9D1\uC740 \uACE0\uB515;
+proposalOrderMigrated=true
+sourceHoverBackgroundColor=41,41,41
+spelling_ignore_ampersand_in_properties=true
+spelling_ignore_digits=true
+spelling_ignore_java_strings=true
+spelling_ignore_mixed=true
+spelling_ignore_non_letters=true
+spelling_ignore_sentence=true
+spelling_ignore_single_letters=true
+spelling_ignore_upper=true
+spelling_ignore_urls=true
+spelling_locale_initialized=true
+spelling_user_dictionary_encoding=
+tabWidthPropagated=true
+useAnnotationsPrefPage=true
+useQuickDiffPrefPage=true

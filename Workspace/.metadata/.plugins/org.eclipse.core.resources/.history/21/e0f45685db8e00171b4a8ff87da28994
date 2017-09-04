@@ -1,0 +1,22 @@
+package product.model.service;
+
+import java.util.ArrayList;
+
+import product.model.dao.ProductDao;
+import product.model.vo.Product;
+
+public class ProductService {
+
+	private ProductDao pDao = new ProductDao();
+
+	public Product selectId(String pId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public ArrayList<Product> selectAllList() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+}

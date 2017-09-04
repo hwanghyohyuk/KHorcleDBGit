@@ -1,0 +1,9 @@
+package product.model.service;
+
+import product.model.dao.ProductDao;
+
+public class ProductService {
+
+	private ProductDao pDao = new ProductDao();
+	
+}

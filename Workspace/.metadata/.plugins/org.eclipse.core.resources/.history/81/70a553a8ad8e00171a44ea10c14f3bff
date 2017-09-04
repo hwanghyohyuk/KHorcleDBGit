@@ -1,0 +1,51 @@
+package employee.model.service;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import employee.model.dao.EmployeeDao;
+import employee.model.vo.Employee;
+
+public class EmployeeService {
+	//의존성 주입
+	private EmployeeDao empDao = new EmployeeDao();
+		
+	public EmployeeService(){}
+
+	public Employee selectOne(String empId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public ArrayList<Employee> selectList() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	public HashMap<String, Employee> selectMap() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public ArrayList<Employee> selectSearchName(String empName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public ArrayList<Employee> selectSearchHireDate(String hireDate) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public ArrayList<Employee> selectSearchSalary(int minSal, int maxSal) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public int insertEmployee(Employee inputEmpInfo) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
+}

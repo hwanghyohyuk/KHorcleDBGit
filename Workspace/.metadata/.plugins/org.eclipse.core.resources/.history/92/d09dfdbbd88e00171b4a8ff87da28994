@@ -1,0 +1,11 @@
+package product.controller;
+
+import product.model.service.ProductService;
+
+public class ProductController {
+
+	private ProductService pService = new ProductService();
+	
+	public void selectProductId(String pId)
+	
+}

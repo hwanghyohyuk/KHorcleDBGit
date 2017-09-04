@@ -1,0 +1,15 @@
+package common;
+
+import java.sql.*;
+import java.util.*;
+
+public class JDBCTemplate {
+
+	private Properties prop = new Properties();
+		
+	public static void getConnection(){
+		Connection conn = DriverManager.getConnection(url)
+	}
+	
+	
+}

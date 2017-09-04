@@ -1,0 +1,235 @@
+package employee.model.dao;
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import static common.JDBCtemplate.*;
+import employee.model.vo.Employee;
+
+/*Data Access Object*/
+public class EmployeeDao {
+
+	public EmployeeDao() {
+	}
+
+	public Employee selectOne(Connection conn, String empId) {
+
+		Employee emp = null;
+		Statement state = null;
+		ResultSet result = null;
+		String query = "SELECT * FROM EMPLOYEE WHERE EMP_ID = " + empId;
+
+		try {
+			state = conn.createStatement();
+			result = state.executeQuery(query);
+			if (result.next()) {// 조회해온 결과의 BOF 다음 값이 있다면
+				emp = new Employee(empId, result.getString("EMP_NAME"), result.getString("EMP_NO"),
+						result.getString("EMAIL"), result.getString("PHONE"), result.getDate("HIRE_DATE"),
+						result.getString("JOB_ID"), result.getInt("SALARY"), result.getDouble("BONUS_PCT"),
+						result.getString("MARRIAGE"), result.getString("MGR_ID"), result.getString("DEPT_ID"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(result);
+			close(state);
+		}
+		return emp;
+	}
+
+	// list
+	public ArrayList<Employee> selectList(Connection conn) {
+		Employee emp = null;
+		ArrayList<Employee> list = new ArrayList<Employee>();
+		Statement state = null;
+		ResultSet result = null;
+		String query = "SELECT * FROM EMPLOYEE";
+
+		try {
+			state = conn.createStatement();
+			result = state.executeQuery(query);
+			while (result.next()) {// 조회해온 결과의 BOF 다음 값이 있다면
+				emp = new Employee(result.getString("EMP_ID"), result.getString("EMP_NAME"), result.getString("EMP_NO"),
+						result.getString("EMAIL"), result.getString("PHONE"), result.getDate("HIRE_DATE"),
+						result.getString("JOB_ID"), result.getInt("SALARY"), result.getDouble("BONUS_PCT"),
+						result.getString("MARRIAGE"), result.getString("MGR_ID"), result.getString("DEPT_ID"));
+				list.add(emp);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(result);
+			close(state);
+		}
+		return list;
+	}
+
+	public HashMap<String, Employee> selectMap(Connection conn) {
+		Employee emp = null;
+		HashMap<String, Employee> map = new HashMap<String, Employee>();
+		Statement state = null;
+		ResultSet result = null;
+		String query = "SELECT * FROM EMPLOYEE";
+
+		try {
+			state = conn.createStatement();
+			result = state.executeQuery(query);
+			while (result.next()) {// 조회해온 결과의 BOF 다음 값이 있다면
+				emp = new Employee(result.getString("EMP_ID"), result.getString("EMP_NAME"), result.getString("EMP_NO"),
+						result.getString("EMAIL"), result.getString("PHONE"), result.getDate("HIRE_DATE"),
+						result.getString("JOB_ID"), result.getInt("SALARY"), result.getDouble("BONUS_PCT"),
+						result.getString("MARRIAGE"), result.getString("MGR_ID"), result.getString("DEPT_ID"));
+				map.put(emp.getEmpId(), emp);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(result);
+			close(state);
+		}
+		return map;
+	}
+
+	public ArrayList<Employee> selectSearchName(Connection conn, String empName) {
+		Employee emp = null;
+		ArrayList<Employee> list = new ArrayList<Employee>();
+		Statement state = null;
+		ResultSet result = null;
+		String query = null;
+
+		// 이름으로 찾기 (포함글자)
+		query = "SELECT * FROM EMPLOYEE WHERE EMP_NAME LIKE '%" + empName + "%'";
+
+		try {
+			state = conn.createStatement();
+			result = state.executeQuery(query);
+			while (result.next()) {// 조회해온 결과의 BOF 다음 값이 있다면
+				emp = new Employee(result.getString("EMP_ID"), result.getString("EMP_NAME"), result.getString("EMP_NO"),
+						result.getString("EMAIL"), result.getString("PHONE"), result.getDate("HIRE_DATE"),
+						result.getString("JOB_ID"), result.getInt("SALARY"), result.getDouble("BONUS_PCT"),
+						result.getString("MARRIAGE"), result.getString("MGR_ID"), result.getString("DEPT_ID"));
+				list.add(emp);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(result);
+			close(state);
+		}
+		return list;
+	}
+
+	public ArrayList<Employee> selectSearchHireDate(Connection conn, String hireDate) {
+		Employee emp = null;
+		ArrayList<Employee> list = new ArrayList<Employee>();
+		Statement state = null;
+		ResultSet result = null;
+		String query = null;
+
+		// 입사일로 찾기 (포함글자)
+		query = "SELECT * FROM EMPLOYEE WHERE HIRE_DATE = '" + hireDate + "'";
+
+		try {
+			state = conn.createStatement();
+			result = state.executeQuery(query);
+			while (result.next()) {// 조회해온 결과의 BOF 다음 값이 있다면
+				emp = new Employee(result.getString("EMP_ID"), result.getString("EMP_NAME"), result.getString("EMP_NO"),
+						result.getString("EMAIL"), result.getString("PHONE"), result.getDate("HIRE_DATE"),
+						result.getString("JOB_ID"), result.getInt("SALARY"), result.getDouble("BONUS_PCT"),
+						result.getString("MARRIAGE"), result.getString("MGR_ID"), result.getString("DEPT_ID"));
+				list.add(emp);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(result);
+			close(state);
+		}
+		return list;
+	}
+
+	public ArrayList<Employee> selectSearchSalary(Connection conn, int minSal, int maxSal) {
+		Employee emp = null;
+		ArrayList<Employee> list = new ArrayList<Employee>();		
+		Statement state = null;
+		ResultSet result = null;
+		String query = null;
+
+		// 이름으로 찾기 (포함글자)
+		query = "SELECT * FROM EMPLOYEE WHERE SALARY >= " + minSal + " AND SALARY<=" + maxSal;
+
+		try {
+			state = conn.createStatement();
+			result = state.executeQuery(query);
+			while (result.next()) {// 조회해온 결과의 BOF 다음 값이 있다면
+				emp = new Employee(result.getString("EMP_ID"), result.getString("EMP_NAME"), result.getString("EMP_NO"),
+						result.getString("EMAIL"), result.getString("PHONE"), result.getDate("HIRE_DATE"),
+						result.getString("JOB_ID"), result.getInt("SALARY"), result.getDouble("BONUS_PCT"),
+						result.getString("MARRIAGE"), result.getString("MGR_ID"), result.getString("DEPT_ID"));
+				list.add(emp);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(result);
+			close(state);
+		}
+		return list;
+	}
+
+	public int insertEmployee(Connection conn, Employee emp) {
+		// 성공 1
+		// 실패 0
+		int result = 0;
+		Statement state = null;
+
+		String query = "INSERT INTO EMPLOYEE VALUES(" + "(SELECT MAX(EMP_ID)+1 FROM EMPLOYEE)," + "'" + emp.getEmpName()
+				+ "', " + "'" + emp.getEmpNo() + "'," + "'" + emp.getEmail() + "', " + "'" + emp.getPhone() + "',"
+				+ "SYSDATE, " + "(SELECT JOB_ID FROM JOB WHERE JOB_TITLE LIKE '%" + emp.getJobId() + "%'), "
+				+ emp.getSalary() + ", " + emp.getBonusPct() + ", " + "'" + emp.getMarriage() + "', "
+				+ "(SELECT EMP_ID FROM EMPLOYEE WHERE EMP_NAME NOT LIKE '" + emp.getEmpName() + "' AND EMP_NAME LIKE '"
+				+ emp.getMgrId() + "')," + "(SELECT DEPT_ID FROM DEPARTMENT WHERE DEPT_NAME LIKE '%" + emp.getDeptId()
+				+ "%')" + ")";
+		try {
+			state = conn.createStatement();
+			result = state.executeUpdate(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(state);
+		}
+		return result;
+	}
+
+	public int deleteEmployee(Connection conn, String empId) {
+		int result = 0;
+		Statement state = null;
+		String query =  "DELETE FROM EMPLOYEE WHERE EMP_ID='"+empId+"'"; 
+		try {
+			state = conn.createStatement();
+			result = state.executeUpdate(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(state);
+		}
+		return result;
+	}
+
+	public int updateEmployee(Connection conn, Employee emp) {
+		int result =0;
+		
+		PreparedStatement pstmt = null;
+		
+		String query = "UPDATE EMPLOYEE SET EMAIL =?,"+"PHONE = ?, MARRIAGE = ? WHERE EMP_ID = ?";
+		
+		try{
+			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+}

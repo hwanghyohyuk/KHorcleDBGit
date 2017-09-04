@@ -1,0 +1,60 @@
+package employee.model.service;
+
+import java.sql.*;
+import java.util.*;
+
+import common.JDBCtemplate;
+import employee.model.dao.EmployeeDao;
+import employee.model.vo.Employee;
+import static common.JDBCtemplate.*;
+
+public class EmployeeService {
+	// 의존성 주입
+	private EmployeeDao empDao = new EmployeeDao();
+
+	public EmployeeService() {}
+
+	public Employee selectOne(String empId) {
+		//Connection 얻고
+		Connection conn = getConnection();
+		//Dao 메소드 실행
+		Employee emp = empDao.selectOne(conn, empId);
+		//Connection 반납
+		close(conn);
+		return emp;
+	}
+
+	public ArrayList<Employee> selectList() {
+		Connection conn = getConnection();
+		ArrayList<Employee> list = empDao.selectList();
+		close(conn);
+		return list;
+	}
+
+	public HashMap<String, Employee> selectMap() {
+		HashMap<String, Employee> map = empDao.selectMap();
+		close(conn);
+		return map;
+	}
+
+	public ArrayList<Employee> selectSearchName(String empName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public ArrayList<Employee> selectSearchHireDate(String hireDate) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public ArrayList<Employee> selectSearchSalary(int minSal, int maxSal) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public int insertEmployee(Employee inputEmpInfo) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+}

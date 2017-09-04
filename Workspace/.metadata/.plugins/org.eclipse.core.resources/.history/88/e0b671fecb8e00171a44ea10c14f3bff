@@ -1,0 +1,103 @@
+package employee.controller;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import employee.model.service.EmployeeService;
+import employee.model.vo.Employee;
+import employee.view.EmployeeView;
+
+public class EmployeeController {
+	// 의존성 주입 Controller > Service > Dao
+	private EmployeeService empService = new EmployeeService();
+
+	public EmployeeController() {
+	}
+
+	public void selectEmployee(String empId) {
+		// 뷰로부터 받은 데이터를 검사하거나 가공 처리후 모델로 전달하고 처리결과를 받아서
+		// 성공 실패에 따라 뷰를 선택해서 구동시킴
+		try {
+			Employee emp = empService.selectOne(empId);
+			if (emp != null) {
+				new EmployeeView().printEmployee(emp);
+			}
+
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return;
+		}
+
+	}
+
+	// 리스트로
+	public void selectAllList() {
+		try {
+			ArrayList<Employee> list = empService.selectList();
+			if (list.size() > 0) {
+				new EmployeeView().printAllList(list);
+			} else {
+				return;
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return;
+		}
+	}
+
+	public void selectAllMap() {
+		try {
+			HashMap<String, Employee> map = empService.selectMap();
+			if (map.size() > 0) {
+				new EmployeeView().printAllMap(map);
+			} else {
+				return;
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return;
+		}
+	}
+
+	public void selectName(String empName) { // 이름으로 조회
+		try {
+			ArrayList<Employee> list = empService.selectSearchName(empName);
+			new EmployeeView().printAllList(list);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return;
+		}
+	}
+
+	public void selectHireDate(String hireDate) { // 입사일로 조회
+		try {
+			ArrayList<Employee> list = empService.selectSearchHireDate(hireDate);
+			new EmployeeView().printAllList(list);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return;
+		}
+	}
+
+	public void selectSalary(int minSal, int maxSal) {// 급여로 조회
+		try {
+			ArrayList<Employee> list = empService.selectSearchSalary(minSal, maxSal);
+			new EmployeeView().printAllList(list);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return;
+		}
+	}
+
+	public void insertEmployee(Employee inputEmpInfo) {
+		try {
+			int result = empService.insertEmployee(inputEmpInfo);
+			new EmployeeView().insertResult(result);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return;
+		}
+
+	}
+
+}

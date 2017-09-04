@@ -1,0 +1,14 @@
+package product.view;
+
+import javax.swing.JFrame;
+
+import product.controller.ProductController;
+
+public class ProductView extends JFrame{
+	
+	private ProductController pController = new ProductController();
+	
+	public ProductView() {
+	}
+
+}

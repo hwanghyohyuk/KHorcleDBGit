@@ -1,0 +1,9 @@
+package product.view;
+
+import javax.swing.JFrame;
+
+public class ProductView extends JFrame{
+	public ProductView() {
+	}
+
+}

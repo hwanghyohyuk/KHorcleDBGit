@@ -1,0 +1,192 @@
+package employee.view;
+
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Scanner;
+import java.util.Set;
+
+import employee.controller.EmployeeController;
+import employee.model.vo.Employee;
+
+public class EmployeeView {
+
+	private Scanner sc = new Scanner(System.in);
+	private EmployeeController eController;
+
+	public EmployeeView() {
+		eController = new EmployeeController();
+	}
+
+	public void displayMainMenu() {
+		System.out.println("********** 사원 관리 프로그램 **********");
+		int menu = 0;
+		do {
+			System.out.println("\n********** 메인 메뉴 **********");
+			System.out.println("1. 직원 조회");
+			System.out.println("2. 전체 직원 조회");
+			System.out.println("3. 이름으로 조회");
+			System.out.println("4. 입사일로 조회");
+			System.out.println("5. 급여로 조회");
+			System.out.println("6. 새 직원 등록");
+			System.out.println("7. 직원 정보 수정");
+			System.out.println("8. 직원 삭제");
+			System.out.println("100. 전체 직원 이름 내림차순 조회");
+			System.out.println("9. 프로그램 종료");
+			System.out.print("메뉴 선택 : ");
+			menu = sc.nextInt();
+			sc.nextLine();
+
+			switch (menu) {
+			case 1:
+				System.out.print("조회할 직원의 사번을 입력하세요 : ");
+				eController.selectEmployee(sc.next());
+				sc.nextLine();
+				break;
+			case 2:
+				eController.selectAllList();
+				break;
+			case 3:
+				System.out.print("조회할 직원의 이름을 입력하세요 : ");
+				eController.selectName(sc.next());
+				sc.nextLine();
+				break;
+			case 4:
+				System.out.print("조회할 직원의 입사일을 입력하세요 (yyyymmdd) : ");
+				eController.selectHireDate(sc.next());
+				sc.nextLine();
+				break;
+			case 5:
+				do {
+					System.out.print("조회할 직원들의 최저급여를 입력하세요 : ");
+					int minSal = Integer.parseInt(sc.next());
+					System.out.print("조회할 직원들의 최대급여를 입력하세요 : ");
+					int maxSal = Integer.parseInt(sc.next());
+					eController.selectSalary(minSal, maxSal);
+					sc.nextLine();
+					if (minSal <= maxSal)
+						break;// 최저급여가 최대급여보다 같거나 적을때만 탈출
+					System.out.println("최저급여가 최대급여보다 높습니다.");
+				} while (true);
+				break;
+			case 6:// 새 직원 추가
+				eController.insertEmployee(inputEmpInfo());
+				break;
+			case 7:// 직원 정보 수정
+				eController.selectAllList();
+				System.out.println("전체 직원 정보입니다. 수정할 직원의 사번을 입력해주세요");
+				// eController.updateEmployee(modifyEmpInfo());
+
+				break;
+			case 8:// 직원 삭제
+
+				break;
+			case 9:
+				System.out.print("프로그램을 종료하시겠습니까? (y/n) : ");
+				if (sc.next().toUpperCase().charAt(0) == 'Y')
+					return;
+				else
+					break;
+			case 100:
+
+			default:
+				System.out.println("번호가 잘못 입력되었습니다. 다시 입력해주세요!");
+				break;
+			}
+		} while (true);
+
+	}
+
+	public Employee inputEmpInfo() {// 새 직원 정보를 키보드로 입력받고 새 객체를 생성하는 메소드
+		Employee emp = new Employee();
+		System.out.println("새 직원의 정보를 입력해주세요.");
+		System.out.print("사원 명 : ");
+		emp.setEmpName(sc.nextLine());
+		System.out.print("주민번호 : ");
+		emp.setEmpNo(sc.nextLine());
+		System.out.print("이메일 : ");
+		emp.setEmail(sc.nextLine());
+		System.out.print("전화번호 : ");
+		emp.setPhone(sc.nextLine());
+		System.out.print("직책 : ");
+		emp.setJobId(sc.nextLine());
+		System.out.print("급여 : ");
+		emp.setSalary(Integer.parseInt(sc.next()));
+		sc.nextLine();
+		System.out.print("보너스 포인트 : ");
+		emp.setBonusPct(Double.parseDouble(sc.next()));
+		sc.nextLine();
+		System.out.print("혼인여부 : ");
+		emp.setMarriage(String.valueOf(sc.next().toUpperCase().charAt(0)));
+		sc.nextLine();
+		System.out.print("매니저 이름 : ");
+		emp.setMgrId(sc.nextLine());
+		System.out.print("부서 명 : ");
+		emp.setDeptId(sc.nextLine());
+		return emp;
+	}
+
+	public Employee modifyEmpInfo() {
+		Employee emp = new Employee();
+		emp.setEmpId(sc.next());
+		sc.nextLine();
+		System.out.println("어떤 정보를 수정하시겠습니까?");
+		System.out.println("1. 이메일");
+		System.out.println("2. 전화번호");
+		System.out.println("3. 직급");
+		System.out.println("4. 급여");
+		System.out.println("5. 보너스 포인트");
+		System.out.println("6. 결혼유무");
+		System.out.println("7. 매니저");
+		System.out.println("8. 부서");
+		return null;
+	}
+
+	// 직원 한명의 정보를 출력하는 메소드
+	public void printEmployee(Employee emp) {
+		if (emp != null) {
+			System.out.println("조회한 결과입니다.");
+			System.out.println(emp.toString());
+		}
+	}
+
+	// 직원 전체 출력용 메소드
+
+	public void printAllList(ArrayList<Employee> empList) {
+		if (empList.size() > 0) {
+			System.out.println("조회한 결과가 " + empList.size() + " 건 존재합니다.");
+			int row = 1;
+			for (Employee e : empList) {
+				System.out.println(row + " : " + e.toString());
+				row++;
+			}
+		} else {
+			System.out.println("조회한 결과가 존재하지 않습니다.");
+		}
+	}
+
+	public void printAllMap(HashMap<String, Employee> map) {
+		Set<Map.Entry<String, Employee>> entrySet = map.entrySet();
+		Iterator<Map.Entry<String, Employee>> iter = entrySet.iterator();
+		System.out.println("조회한 결과입니다.");
+		int row = 1;
+		while (iter.hasNext()) {
+			Map.Entry<String, Employee> entry = iter.next();
+			Employee emp = entry.getValue();
+			System.out.println(row + " : " + emp.toString());
+			row++;
+		}
+	}
+
+	public void insertResult(int result) {
+		if (result == 1) {
+			System.out.println("정상적으로 입력되었습니다.");
+		} else {
+			System.out.println("실패!");
+		}
+
+	}
+}

@@ -1,0 +1,4 @@
+#query.properties
+#sql query file
+#20170901 write
+selectOne=SELECT * FROM EMPLOYEE WHERE EMP_ID = ?
