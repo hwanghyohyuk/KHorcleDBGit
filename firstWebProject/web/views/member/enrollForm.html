@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>enrollForm</title>
+</head>
+<body>
+<h2 align="center">회원 가입 페이지</h2>
+<br><br>
+<!-- 웹에서의 절대경로 : "/context root명/대상경로/파일명.확장자" -->
+<form action="/first/menroll" method="post">
+<table align="center" width="600" height="350">
+<tr><th width="150">아이디</th>
+	<td width="450"><input name="userid" value=""></td>
+</tr>
+<tr><th>이 름</th>
+	<td><input type="text" name="username" value=""></td>
+</tr>
+<tr><th>암 호</th>
+	<td><input type="password" name="userpwd" value=""></td>
+</tr>
+<tr><th>암호확인</th><td><input type="password" name="userpwd2"></td></tr>
+<tr><th>성 별</th>	
+	<td><input type="radio" name="gender" value="M"> 남
+		<input type="radio" name="gender" value="F"> 여
+	</td>	
+</tr>
+<tr><th>나 이</th>
+	<td><input type="number" name="age" min="1" max="100" value=""></td>
+</tr>
+<tr><th>전화번호</th>
+	<td><input type="tel" name="phone" value=""></td>
+</tr>
+<tr><th>이메일</th>
+	<td><input type="email" name="email" value=""></td>
+</tr>
+<tr><th>주 소</th>
+	<td><input type="text" name="address" value=""></td>
+</tr>
+<tr><th>취 미</th>
+	<td>	
+	<table>
+	<tr>
+		<td><input type="checkbox" name="hobby" value="독서"> 독서</td>	
+		<td><input type="checkbox" name="hobby" value="운동"> 운동</td>	
+		<td><input type="checkbox" name="hobby" value="등산"> 등산</td>	
+	</tr>
+	<tr>	
+		<td><input type="checkbox" name="hobby" value="그림" > 그림</td>	
+		<td><input type="checkbox" name="hobby" value="요리" > 요리</td>	
+		<td><input type="checkbox" name="hobby" value="음악" > 음악</td>	
+	</tr>
+	<tr>	
+		<td><input type="checkbox" name="hobby" value="게임" > 게임</td>	
+		<td><input type="checkbox" name="hobby" value="댄스" > 댄스</td>	
+		<td><input type="checkbox" name="hobby" value="기타" > 기타</td>	
+	</tr>
+	
+	</table>	
+	</td>
+</tr>
+<tr><th colspan="2">
+	<input type="submit" value="가입하기"> &nbsp;
+	<input type="reset" value="취소">
+</th></tr>
+</table>
+</form>
+<br><br>
+<div align="center">
+	<a href="/first/index.jsp">시작페이지로 이동</a>
+</div>
+
+</body>
+</html>
